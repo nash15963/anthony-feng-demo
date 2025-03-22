@@ -1,4 +1,4 @@
-import { Filter } from "lucide-react";
+import { Filter, Plus } from "lucide-react";
 import type { FC } from "react";
 import {
   DropdownMenu,
@@ -17,10 +17,14 @@ interface FilterAbilitiesProps {
 const FilterAbilities: FC<FilterAbilitiesProps> = ({ allAbilities, filterAbilities, onToggle }) => {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {/* 左邊：Filter Icon 下拉選單 */}
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Filter className="h-5 w-5 cursor-pointer" />
+          <div className="relative inline-block">
+            <Filter className="h-5 w-5 cursor-pointer" />
+            <div className="absolute -bottom-1 -right-1 bg-blue-500 text-white rounded-full w-3 h-3 flex items-center justify-center text-[8px]">
+              <Plus className="h-2 w-2" />
+            </div>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {allAbilities.map((ability) => {
@@ -37,7 +41,6 @@ const FilterAbilities: FC<FilterAbilitiesProps> = ({ allAbilities, filterAbiliti
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* 右邊：勾選的 abilities，以卡片列點顯示 */}
       {filterAbilities.map((ability) => (
         <div
           key={ability}

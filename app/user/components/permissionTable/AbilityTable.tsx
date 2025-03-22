@@ -1,4 +1,10 @@
-import { CheckCircle, XCircle, Pencil, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle, XCircle, Pencil, ChevronDown, ChevronUp, MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "~/components/ui/dropdown-menu";
 import type { IAbilityConfig, IAllowRevokeItem } from "~/user/PermissionsTable";
 
 interface Props {
@@ -63,71 +69,95 @@ const AbilityTable = ({ title, isAllowed, contents, onEdit, id }: Props) => {
     });
   };
 
+  const handleDelete = () => {
+    onEdit((prev) => prev.filter((_, i) => i !== id));
+  };
+
   return (
     <div className="bg-gray-100 my-4 p-4 rounded-md shadow-sm flex flex-col gap-4">
-      <div className="flex items-center gap-4 whitespace-nowrap">
-        <div className="font-bold flex items-center gap-2 w-35">
-          {title && (
-            <>
-              <span>{`#${title}`}</span>
-              <Pencil className="h-4 w-4 cursor-pointer text-gray-500" />
-            </>
-          )}
+      <div className="flex items-center justify-between whitespace-nowrap" id="column-bar-line">
+        {/* 左側：標題與狀態 */}
+        <div style={{ minWidth: "300px", display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ width: "145px", display: "flex", alignItems: "center", gap: "10px" }}>
+            {title && (
+              <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span>{`#${title}`}</span>
+                <Pencil className="h-4 w-4 cursor-pointer text-gray-500" />
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-1">
+            {isAllowed ? (
+              <CheckCircle className="h-4 w-4 text-green-500" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-500" />
+            )}
+            <span>{isAllowed ? "Allow to ..." : "Revoke to ..."}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          {isAllowed ? (
-            <CheckCircle className="h-4 w-4 text-green-500" />
-          ) : (
-            <XCircle className="h-4 w-4 text-red-500" />
-          )}
-          <span>{isAllowed ? "Allow to ..." : "Revoke to ..."}</span>
-        </div>
+
+        {/* 右側：下拉選單 */}
+        {title ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <MoreHorizontal className="h-4 w-4 cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : null}
       </div>
 
       <div className="flex flex-col gap-2 pl-40">
         {contents.map((content, index) => (
           <div key={index} className="flex items-center justify-between">
             <span className="flex-1 max-w-[300px] truncate">{content.detail}</span>
-            <div className="flex items-center justify-between gap-2 w-[200px]">
+
+            <div className="flex items-center justify-between gap-2 w-[300px]">
               {/* 只有在目前狀態為 false 時，點擊 CheckCircle 才會切換為 true */}
-              <CheckCircle
-                className={`h-4 w-4 cursor-pointer ${content.isAllowed ? "text-green-500" : "text-gray-300"}`}
-                onClick={() => {
-                  if (!content.isAllowed) {
-                    toggleItemAllowed(index, true);
-                  }
-                }}
-              />
-              {/* 只有在目前狀態為 true 時，點擊 XCircle 才會切換為 false */}
-              <XCircle
-                className={`h-4 w-4 cursor-pointer ${!content.isAllowed ? "text-red-500" : "text-gray-300"}`}
-                onClick={() => {
-                  if (content.isAllowed) {
-                    toggleItemAllowed(index, false);
-                  }
-                }}
-              />
-              {/* 根據目前 table 顯示對應箭頭，並加入移動事件 */}
-              {title ? (
-                <ChevronDown className="h-4 w-4 cursor-pointer" onClick={() => moveItem(index, "allowToRevoke")} />
-              ) : (
-                <ChevronUp className="h-4 w-4 cursor-pointer" onClick={() => moveItem(index, "revokeToAllow")} />
-              )}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", width: "150px" }}>
+                <CheckCircle
+                  className={`h-4 w-4 cursor-pointer ${content.isAllowed ? "text-green-500" : "text-gray-300"}`}
+                  onClick={() => {
+                    if (!content.isAllowed) {
+                      toggleItemAllowed(index, true);
+                    }
+                  }}
+                />
+                {/* 只有在目前狀態為 true 時，點擊 XCircle 才會切換為 false */}
+                <XCircle
+                  className={`h-4 w-4 cursor-pointer ${!content.isAllowed ? "text-red-500" : "text-gray-300"}`}
+                  onClick={() => {
+                    if (content.isAllowed) {
+                      toggleItemAllowed(index, false);
+                    }
+                  }}
+                />
+                {/* 根據目前 table 顯示對應箭頭，並加入移動事件 */}
+                {title ? (
+                  <ChevronDown className="h-4 w-4 cursor-pointer" onClick={() => moveItem(index, "allowToRevoke")} />
+                ) : (
+                  <ChevronUp className="h-4 w-4 cursor-pointer" onClick={() => moveItem(index, "revokeToAllow")} />
+                )}
+              </div>
               {/* CH 與 U 點擊功能 */}
-              <span
-                className={`px-2 py-0.5 text-xs rounded-md cursor-pointer ${
-                  content.isInChannel ? "bg-black text-white" : "bg-gray-200 text-gray-500"
-                }`}
-                onClick={() => toggleInChannel(index, true)}>
-                CH
-              </span>
-              <span
-                className={`px-2 py-0.5 text-xs rounded-md cursor-pointer ${
-                  !content.isInChannel ? "bg-black text-white" : "bg-gray-200 text-gray-500"
-                }`}
-                onClick={() => toggleInChannel(index, false)}>
-                U
-              </span>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", width: "150px" }}>
+                <span
+                  className={`px-2 py-0.5 text-xs rounded-md cursor-pointer ${
+                    content.isInChannel ? "bg-black text-white" : "bg-gray-200 text-gray-500"
+                  }`}
+                  onClick={() => toggleInChannel(index, true)}>
+                  CH
+                </span>
+                <span
+                  className={`px-2 py-0.5 text-xs rounded-md cursor-pointer ${
+                    !content.isInChannel ? "bg-black text-white" : "bg-gray-200 text-gray-500"
+                  }`}
+                  onClick={() => toggleInChannel(index, false)}>
+                  U
+                </span>
+              </div>
             </div>
           </div>
         ))}

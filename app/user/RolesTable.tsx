@@ -71,17 +71,9 @@ const RolesTable = (props: Props) => {
         <CreateRoleDialog onCreateRole={(newRole) => setRoles((prev) => [...prev, newRole])} />
       </div>
 
-      {/* abilities filter row - 已抽成獨立元件 */}
-      <FilterAbilities
-        allAbilities={allAbilities}
-        filterAbilities={filterAbilities}
-        onToggle={handleToggleFilter}
-      />
+      <FilterAbilities allAbilities={allAbilities} filterAbilities={filterAbilities} onToggle={handleToggleFilter} />
 
-      <div
-        id="column-bar"
-        className="flex justify-between rounded-md py-3 text-center bg-gray-200"
-      >
+      <div id="column-bar" className="flex justify-between rounded-md py-3 text-center bg-gray-200">
         <div className="flex-1 flex items-center justify-center gap-2">
           <User className="h-4 w-4" />
           <span>Roles - {roles.length}</span>
@@ -98,10 +90,7 @@ const RolesTable = (props: Props) => {
 
       {filteredRoles.map((role, index) => (
         <div key={index} className="border rounded-md p-4 bg-white shadow-sm">
-          <div
-            className="font-bold text-black text-left mb-2"
-            style={{ margin: "5px", marginBottom: 20 }}
-          >
+          <div className="font-bold text-black text-left mb-2" style={{ margin: "5px", marginBottom: 20 }}>
             {role.role}
           </div>
 
@@ -109,9 +98,7 @@ const RolesTable = (props: Props) => {
             {/* Avatar */}
             <div className="flex items-center gap-2">
               <Avatar>
-                <AvatarFallback
-                  className={`text-white ${iconBgColor[role.role] || "bg-gray-500"}`}
-                >
+                <AvatarFallback className={`text-white ${iconBgColor[role.role] || "bg-gray-500"}`}>
                   {role.role[0]}
                 </AvatarFallback>
               </Avatar>
@@ -120,22 +107,17 @@ const RolesTable = (props: Props) => {
             {/* Abilities */}
             <div
               className="flex-1 flex flex-col items-start justify-start gap-1 px-4 max-w-xs truncate"
-              style={{ maxWidth: "200px" }}
-            >
-              {role.abilities.map((ability, idx) => {
-                // 若該 ability 被勾選，設置藍色字體
-                const isFiltered = filterAbilities.includes(ability);
-                return (
-                  <div key={idx} className="flex items-center gap-2 truncate">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span
-                      className={`text-sm truncate ${isFiltered ? "text-blue-600 font-semibold" : ""}`}
-                    >
+              style={{ maxWidth: "200px" }}>
+              <ul className="list-disc list-inside pl-5">
+                {role.abilities.map((ability, idx) => {
+                  const isFiltered = filterAbilities.includes(ability);
+                  return (
+                    <li key={`${idx}-abs-${ability}`} className={`text-sm truncate ${isFiltered ? "text-blue-600 font-semibold" : ""}`}>
                       {ability}
-                    </span>
-                  </div>
-                );
-              })}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
 
             {/* Layer */}
@@ -157,9 +139,7 @@ const RolesTable = (props: Props) => {
                 <MoreHorizontal className="h-4 w-4 cursor-pointer" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => handleDelete(index)}>
-                  Delete
-                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDelete(index)}>Delete</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

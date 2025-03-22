@@ -1,9 +1,10 @@
 import SearchInput from "./components/SearchInput";
-import { ShieldCheck, Accessibility, Lock, UserCog } from "lucide-react";
+import { ShieldCheck, Lock, UserCog } from "lucide-react";
 import type { IRole } from "./page";
 import AbilityTable from "./components/permissionTable/AbilityTable";
 import { useState } from "react";
 import AddAbilityDialog from "./components/permissionTable/AddAbilityDialog";
+import { IoAccessibilityOutline } from "react-icons/io5";
 
 type TAbilityDetail =
   | "Add Member that is not in channel"
@@ -54,12 +55,11 @@ const PermissionsTable = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full bg-gray-100 p-4 rounded-md shadow-sm">
-
       <div className="flex items-center gap-4">
         <div className="relative w-full max-w-lg">
           <SearchInput />
         </div>
-        <AddAbilityDialog onAdd={()=>{}} />
+        <AddAbilityDialog onAdd={() => {}} />
       </div>
 
       <div
@@ -70,7 +70,7 @@ const PermissionsTable = () => {
           <span>Permissions</span>
         </div>
         <div className="flex-1 flex items-center justify-start gap-2">
-          <Accessibility className="h-4 w-4" />
+          <IoAccessibilityOutline className="h-4 w-4" />
           <span>Accessibility</span>
         </div>
         <div className="flex-1 flex items-center justify-start gap-2">

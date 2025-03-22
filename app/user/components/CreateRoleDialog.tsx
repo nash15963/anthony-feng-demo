@@ -74,10 +74,10 @@ const CreateRoleDialog: FC<CreateRoleDialogProps> = ({ onCreateRole }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <button className="flex items-center gap-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
           <UserPlus className="mr-2 h-4 w-4" />
-          Create Role
-        </Button>
+          <span>Create Role</span>
+        </button>
       </DialogTrigger>
 
       <DialogContent>
