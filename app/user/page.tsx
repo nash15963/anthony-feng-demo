@@ -3,17 +3,24 @@ import RolesTable from "./RolesTable";
 import PermissionsTable from "./PermissionsTable";
 import { useState } from "react";
 
+export const abilities = [
+  "Add Member",
+  "Mutate/Unmutate Users",
+  "Change Channel Setting",
+  "Delete Channel",
+  "Create Channel",
+] as const
+
 export interface IRole {
   role: "Moderator" | "Admin" | "User" | "Manager";
-  abilities: Array<
-    "Add Member" | "Mutate/Unmutate Users" | "Change Channel Setting" | "Delete Channel" | "Create Channel"
-  >;
+  abilities: (typeof abilities)[number][];
   layer: number;
   users: Array<{
     name: string;
     email: string;
   }>;
 }
+
 
 const initRoles: Array<IRole> = [
   {
@@ -28,8 +35,6 @@ const initRoles: Array<IRole> = [
     ],
   },
 ];
-
-
 
 const Frame = () => {
   const [roles, setRoles] = useState<IRole[]>(initRoles);

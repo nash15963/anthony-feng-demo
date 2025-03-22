@@ -2,8 +2,9 @@ import SearchInput from "./components/SearchInput";
 import { ShieldCheck, Accessibility, Lock, UserCog } from "lucide-react";
 import type { IRole } from "./page";
 import AbilityTable from "./components/permissionTable/AbilityTable";
+import { useState } from "react";
+import AddAbilityDialog from "./components/permissionTable/AddAbilityDialog";
 
-// 以下為你的型別定義與資料
 type TAbilityDetail =
   | "Add Member that is not in channel"
   | "Remove Member that is in channel"
@@ -16,15 +17,16 @@ export interface IAllowRevokeItem {
   isInChannel: boolean;
 }
 
-interface IAbilityConfig {
+export interface IAbilityConfig {
+  title: IRole["abilities"][number];
   allowTable: IAllowRevokeItem[];
   revokeTable: IAllowRevokeItem[];
 }
 
-type TAllAbilities = Partial<Record<IRole["abilities"][number], IAbilityConfig>>;
 
-const initAbilities: TAllAbilities = {
-  "Add Member": {
+const initAbilities: IAbilityConfig[] = [
+  {
+    title: "Add Member",
     allowTable: [
       {
         detail: "Add Member that is not in channel",
@@ -43,17 +45,21 @@ const initAbilities: TAllAbilities = {
         isAllowed: false,
         isInChannel: false,
       },
-    ],
-  },
-};
+    ]
+  }
+];
 
 const PermissionsTable = () => {
+  const [abilities, setAbilities] = useState<IAbilityConfig[]>(initAbilities);
+
   return (
     <div className="flex flex-col gap-4 w-full bg-gray-100 p-4 rounded-md shadow-sm">
+
       <div className="flex items-center gap-4">
         <div className="relative w-full max-w-lg">
           <SearchInput />
         </div>
+        <AddAbilityDialog onAdd={()=>{}} />
       </div>
 
       <div
@@ -69,27 +75,28 @@ const PermissionsTable = () => {
         </div>
         <div className="flex-1 flex items-center justify-start gap-2">
           <Lock className="h-4 w-4" />
-          <span>Allow / Revoke / Move</span>
+          <span>Allow/Revoke/Move</span>
         </div>
         <div className="flex-1 flex items-center justify-start gap-2">
           <UserCog className="h-4 w-4" />
-          <span>For Channel / For User</span>
+          <span>For Channel/For User</span>
         </div>
       </div>
 
-      {Object.entries(initAbilities).map(([key, config]) => (
-        <div key={key}>
-          <AbilityTable
-            title={key as IRole["abilities"][number]}
-            isAllowed={true}
-            contents={config?.allowTable ?? []}
-          />
-          <AbilityTable
-            isAllowed={false}
-            contents={config?.revokeTable ?? []}
-          />
-        </div>
-      ))}
+      {abilities.map((config, index) => {
+        return (
+          <div key={`ability-${index}`}>
+            <AbilityTable
+              title={config.title}
+              isAllowed={true}
+              contents={config.allowTable}
+              onEdit={setAbilities}
+              id={index}
+            />
+            <AbilityTable isAllowed={false} contents={config.revokeTable} onEdit={setAbilities} id={index} />
+          </div>
+        );
+      })}
     </div>
   );
 };
