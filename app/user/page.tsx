@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import RolesTable from "./RolesTable";
 import PermissionsTable from "./PermissionsTable";
 import { useState } from "react";
-import { ShieldCheck, Users } from "lucide-react";
+import { ShieldCheck, User } from "lucide-react";
 
 
 export const abilities = [
@@ -50,7 +50,7 @@ const Frame = () => {
           
           <TabsList className="justify-center">
             <TabsTrigger value="Roles">
-              <Users className="mr-2 h-4 w-4" />
+              <User className="mr-2 h-4 w-4" />
               Roles
             </TabsTrigger>
             <TabsTrigger value="Permissions">
