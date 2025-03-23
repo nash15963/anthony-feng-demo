@@ -34,22 +34,27 @@ const initAbilities: IAbilityConfig[] = [
       {
         detail: "Add Member that is not in channel",
         isAllowed: true,
-        isInChannel: true,
+        isInChannel: false,
       },
       {
         detail: "Add Member that is in banned list",
-        isAllowed: false,
+        isAllowed: true,
         isInChannel: false,
       },
     ],
     revokeTable: [
       {
         detail: "Remove Member that is in channel",
-        isAllowed: false,
+        isAllowed: true,
         isInChannel: false,
       },
-    ]
-  }
+      {
+        detail: "Move the landing channel",
+        isAllowed: false,
+        isInChannel: true,
+      },
+    ],
+  },
 ];
 
 const PermissionsTable = () => {
@@ -106,7 +111,7 @@ const PermissionsTable = () => {
       {/* note: it can do nothing */}
       <button
         className="flex items-center gap-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        style={{ width: 250 }}>
+        style={{ width: 300 }}>
         <Trash2 className="mr-2 h-4 w-4" />
         <span>Bulk Edit Selected Permissions</span>
       </button>
