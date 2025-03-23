@@ -2,6 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import RolesTable from "./RolesTable";
 import PermissionsTable from "./PermissionsTable";
 import { useState } from "react";
+import { ShieldCheck, Users } from "lucide-react";
+
 
 export const abilities = [
   "Add Member",
@@ -45,13 +47,19 @@ const Frame = () => {
         <h1 className="text-2xl font-bold text-center mb-6">Role-Based Access Control</h1>
 
         <Tabs defaultValue="Roles" className="w-full">
+          
           <TabsList className="justify-center">
-            <TabsTrigger value="Roles">Roles</TabsTrigger>
-            <TabsTrigger value="Permissions">Permissions</TabsTrigger>
+            <TabsTrigger value="Roles">
+              <Users className="mr-2 h-4 w-4" />
+              Roles
+            </TabsTrigger>
+            <TabsTrigger value="Permissions">
+              <ShieldCheck className="mr-2 h-4 w-4" />
+              Permissions
+            </TabsTrigger>
           </TabsList>
-
           <TabsContent value="Roles">
-            <RolesTable roles={roles} setRoles={setRoles}/>
+            <RolesTable roles={roles} setRoles={setRoles} />
           </TabsContent>
           <TabsContent value="Permissions">
             <PermissionsTable />

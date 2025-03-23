@@ -1,16 +1,18 @@
 import SearchInput from "./components/SearchInput";
-import { ShieldCheck, Lock, UserCog } from "lucide-react";
-import type { IRole } from "./page";
+import { ShieldCheck, Lock, UserCog, Trash2 } from "lucide-react";
 import AbilityTable from "./components/permissionTable/AbilityTable";
 import { useState } from "react";
 import AddAbilityDialog from "./components/permissionTable/AddAbilityDialog";
 import { IoAccessibilityOutline } from "react-icons/io5";
 
-type TAbilityDetail =
-  | "Add Member that is not in channel"
-  | "Remove Member that is in channel"
-  | "Add Member that is in banned list"
-  | "Move the landing channel";
+export const abilityDetails =[
+  "Add Member that is not in channel",
+  "Remove Member that is in channel",
+  "Add Member that is in banned list",
+  "Move the landing channel"
+] as const;
+
+export type TAbilityDetail = typeof abilityDetails[number];
 
 export interface IAllowRevokeItem {
   detail: TAbilityDetail;
@@ -19,7 +21,7 @@ export interface IAllowRevokeItem {
 }
 
 export interface IAbilityConfig {
-  title: IRole["abilities"][number];
+  title: string;
   allowTable: IAllowRevokeItem[];
   revokeTable: IAllowRevokeItem[];
 }
@@ -59,7 +61,11 @@ const PermissionsTable = () => {
         <div className="relative w-full max-w-lg">
           <SearchInput />
         </div>
-        <AddAbilityDialog onAdd={() => {}} />
+        <AddAbilityDialog
+          onAdd={(e) => {
+            setAbilities((prev) => [...prev, e]);
+          }}
+        />
       </div>
 
       <div
@@ -97,6 +103,13 @@ const PermissionsTable = () => {
           </div>
         );
       })}
+      {/* note: it can do nothing */}
+      <button
+        className="flex items-center gap-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        style={{ width: 250 }}>
+        <Trash2 className="mr-2 h-4 w-4" />
+        <span>Bulk Edit Selected Roles</span>
+      </button>
     </div>
   );
 };

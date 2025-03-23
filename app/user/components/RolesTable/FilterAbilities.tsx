@@ -6,7 +6,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "~/components/ui/dropdown-menu";
-import type { IRole } from "../page";
+import type { IRole } from "~/user/page";
+
 
 interface FilterAbilitiesProps {
   allAbilities: Array<IRole["abilities"][number]>; // 全部可供選擇的 abilities

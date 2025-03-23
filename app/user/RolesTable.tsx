@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchInput from "./components/SearchInput";
-import { Users, Layers, User, MoreHorizontal, CheckCircle } from "lucide-react";
+import { Users, Layers, User, MoreHorizontal, UserPlus, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import {
   DropdownMenu,
@@ -8,11 +8,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import MemberListDialog from "./components/MemberListDialog";
+import MemberListDialog from "./components/RolesTable/MemberListDialog";
 import { type Dispatch } from "react";
-import CreateRoleDialog from "./components/CreateRoleDialog";
+
 import type { IRole } from "./page";
-import FilterAbilities from "./components/FilterAbilities";
+import FilterAbilities from "./components/RolesTable/FilterAbilities";
+import CreateRoleDialog from "./components/RolesTable/CreateRoleDialog";
 
 interface Props {
   roles: Array<IRole>;
@@ -89,9 +90,18 @@ const RolesTable = (props: Props) => {
       </div>
 
       {filteredRoles.map((role, index) => (
-        <div key={index} className="border rounded-md p-4 bg-white shadow-sm">
+        <div key={`${index}-role-${role}`} className="border rounded-md p-4 bg-white shadow-sm">
           <div className="font-bold text-black text-left mb-2" style={{ margin: "5px", marginBottom: 20 }}>
-            {role.role}
+            {/* note: it can do nothing */}
+            <label className="relative flex items-center gap-1 text-sm">
+              <input type="checkbox" className="peer appearance-none h-4 w-4 border border-gray-300 bg-white" />
+              <svg
+                className="pointer-events-none absolute h-4 w-4 fill-current text-blue-600 opacity-0 peer-checked:opacity-100"
+                viewBox="0 0 20 20">
+                <path d="M16.704 5.29a1 1 0 010 1.42l-7.39 7.39a1 1 0 01-1.42 0l-3.29-3.29a1 1 0 011.42-1.42l2.58 2.58 6.68-6.68a1 1 0 011.42 0z" />
+              </svg>
+              <span className="ml-6">{role.role}</span>
+            </label>
           </div>
 
           <div className="flex justify-between items-start gap-4">
@@ -112,7 +122,9 @@ const RolesTable = (props: Props) => {
                 {role.abilities.map((ability, idx) => {
                   const isFiltered = filterAbilities.includes(ability);
                   return (
-                    <li key={`${idx}-abs-${ability}`} className={`text-sm truncate ${isFiltered ? "text-blue-600 font-semibold" : ""}`}>
+                    <li
+                      key={`${idx}-abs-${ability}`}
+                      className={`text-sm truncate ${isFiltered ? "text-blue-600 font-semibold" : ""}`}>
                       {ability}
                     </li>
                   );
@@ -145,6 +157,13 @@ const RolesTable = (props: Props) => {
           </div>
         </div>
       ))}
+      {/* note: it can do nothing */}
+      <button
+        className="flex items-center gap-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        style={{ width: 250 }}>
+        <Trash2 className="mr-2 h-4 w-4" />
+        <span>Bulk Edit Selected Roles</span>
+      </button>
     </div>
   );
 };

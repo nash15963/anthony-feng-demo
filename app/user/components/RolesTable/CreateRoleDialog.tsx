@@ -10,7 +10,8 @@ import {
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { UserPlus } from "lucide-react";
-import type { IRole } from "../page";
+import type { IRole } from "~/user/page";
+
 
 const allAbilities: IRole["abilities"] = [
   "Add Member",
