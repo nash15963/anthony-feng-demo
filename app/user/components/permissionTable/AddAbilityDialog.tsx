@@ -121,19 +121,7 @@ const AddAbilityDialog: React.FC<AddAbilityDialogProps> = ({ onAdd }) => {
                         )
                       }
                     />
-                    <span>Allowed</span>
-                  </label>
-                  <label className="flex items-center gap-1 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={entry.isInChannel}
-                      onChange={(e) =>
-                        setAllowEntries((prev) =>
-                          prev.map((item, i) => (i === index ? { ...item, isInChannel: e.target.checked } : item))
-                        )
-                      }
-                    />
-                    <span>In Channel</span>
+                    <span>Enabled</span>
                   </label>
                   <button onClick={() => removeAllowRow(index)} className="text-red-500 text-sm">
                     Remove
@@ -177,18 +165,6 @@ const AddAbilityDialog: React.FC<AddAbilityDialogProps> = ({ onAdd }) => {
                       }
                     />
                     <span>Allowed</span>
-                  </label>
-                  <label className="flex items-center gap-1 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={entry.isInChannel}
-                      onChange={(e) =>
-                        setRevokeEntries((prev) =>
-                          prev.map((item, i) => (i === index ? { ...item, isInChannel: e.target.checked } : item))
-                        )
-                      }
-                    />
-                    <span>In Channel</span>
                   </label>
                   <button onClick={() => removeRevokeRow(index)} className="text-red-500 text-sm">
                     Remove

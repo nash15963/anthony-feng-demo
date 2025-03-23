@@ -35,20 +35,6 @@ const AbilityTable = ({ title, isAllowed, contents, onEdit, id }: Props) => {
     });
   };
 
-  // 更新單筆資料的 isInChannel 狀態
-  const toggleInChannel = (index: number, inChannel: boolean) => {
-    onEdit((prev) => {
-      const newConfigs = [...prev];
-      newConfigs[id] = {
-        ...newConfigs[id],
-        [tableKey]: newConfigs[id][tableKey].map((item, i) =>
-          i === index ? { ...item, isInChannel: inChannel } : item
-        ),
-      };
-      return newConfigs;
-    });
-  };
-
   // 移動資料：從 allowTable 移到 revokeTable 或反向
   const moveItem = (index: number, direction: "allowToRevoke" | "revokeToAllow") => {
     onEdit((prev) => {
@@ -168,15 +154,13 @@ const AbilityTable = ({ title, isAllowed, contents, onEdit, id }: Props) => {
                 <span
                   className={`px-2 py-0.5 text-xs rounded-md cursor-pointer ${
                     content.isInChannel ? "bg-black text-white" : "bg-gray-200 text-gray-500"
-                  }`}
-                  onClick={() => toggleInChannel(index, true)}>
+                  }`}>
                   CH
                 </span>
                 <span
                   className={`px-2 py-0.5 text-xs rounded-md cursor-pointer ${
                     !content.isInChannel ? "bg-black text-white" : "bg-gray-200 text-gray-500"
-                  }`}
-                  onClick={() => toggleInChannel(index, false)}>
+                  }`}>
                   U
                 </span>
               </div>

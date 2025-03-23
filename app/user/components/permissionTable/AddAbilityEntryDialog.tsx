@@ -68,11 +68,7 @@ const AddAbilityEntryDialog: React.FC<AddAbilityEntryDialogProps> = ({ onAdd, de
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-1 text-sm">
               <input type="checkbox" checked={isAllowed} onChange={(e) => setIsAllowed(e.target.checked)} />
-              <span>Allowed</span>
-            </label>
-            <label className="flex items-center gap-1 text-sm">
-              <input type="checkbox" checked={isInChannel} onChange={(e) => setIsInChannel(e.target.checked)} />
-              <span>In Channel</span>
+              <span>Enabled</span>
             </label>
           </div>
           <div className="flex justify-end gap-2">
