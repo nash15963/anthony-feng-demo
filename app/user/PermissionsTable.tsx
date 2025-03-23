@@ -108,7 +108,7 @@ const PermissionsTable = () => {
         className="flex items-center gap-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         style={{ width: 250 }}>
         <Trash2 className="mr-2 h-4 w-4" />
-        <span>Bulk Edit Selected Roles</span>
+        <span>Bulk Edit Selected Permissions</span>
       </button>
     </div>
   );
